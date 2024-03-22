@@ -84,10 +84,11 @@ WSGI_APPLICATION = "social_media_api.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "HOST": "localhost",
-        "NAME": "social media",
-        "USER": "postgres",
-        "PASSWORD": "lol321tv",
+        "HOST": os.environ["POSTGRES_HOST"],
+        "NAME": os.environ["POSTGRES_DB"],
+        "USER": os.environ["POSTGRES_USER"],
+        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+        "PORT": os.environ["POSTGRES_PORT"],
     }
 }
 
