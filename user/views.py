@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+from django.views import View
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from rest_framework.decorators import action
@@ -16,6 +17,7 @@ from user.serializers import (
     FollowingSerializer,
     FollowersSerializer,
     PostSerializer,
+    PostImageSerializer,
 )
 from user.permissions import IsOwnerOrReadOnly
 
@@ -52,10 +54,10 @@ class ManageUserView(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-def logout_view(request):
-    logout(request)
-
-    return HttpResponseRedirect("/")
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect("/")
 
 
 class FollowingViewSet(viewsets.ModelViewSet):
@@ -76,7 +78,7 @@ class FollowersViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class PostListCreateRetrieveView(viewsets.ModelViewSet):
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
@@ -95,7 +97,7 @@ class PostListCreateRetrieveView(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == "upload-image":
-            return ImageSerializer
+            return PostImageSerializer
         return PostSerializer
 
     @action(methods=["POST"], detail=True, url_path="upload-image")

@@ -33,6 +33,12 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ["id", "picture"]
 
 
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: Post
+        fields = ["id", "image"]
+
+
 class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserRelation
