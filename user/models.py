@@ -63,6 +63,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
     objects = UserManager()
 
+    def __str__(self):
+        return self.email
+
 
 class UserRelation(models.Model):
     user = models.ForeignKey(
@@ -83,9 +86,15 @@ class UserRelation(models.Model):
         blank=True,
     )
 
+    def __str__(self):
+        return f"{self.user.email} : {self.following.email} {self.followers}"
+
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to=profile_image_file_path, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.created_at}"
