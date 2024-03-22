@@ -67,4 +67,7 @@ python manage.py runserver
 * Used appropriate permissions and authentication classes to implement API permissions.
 * Follow best practices for RESTful API design and documentation.
 
+## DB schema
+
+![social media schema.png](social%20media%20schema.png)
 
